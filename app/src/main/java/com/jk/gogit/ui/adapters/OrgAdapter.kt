@@ -9,7 +9,7 @@ import com.jk.gogit.model.Org
 import kotlinx.android.synthetic.main.item_repo.view.*
 
 /**
- * Created by M2353204 on 02/08/2017.
+ *  on 02/08/2017.
  */
 class OrgAdapter(val viewActions: OnViewSelectedListener?) : androidx.recyclerview.widget.RecyclerView.Adapter<OrgAdapter.ViewHolder>() {
     private var datas = ArrayList<Org>()

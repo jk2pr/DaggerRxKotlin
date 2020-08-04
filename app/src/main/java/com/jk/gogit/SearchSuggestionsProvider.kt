@@ -6,7 +6,6 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
-import com.jk.gogit.application.MyApplication
 import com.jk.gogit.db.suggestions.DBCONSTANTS
 import com.jk.gogit.db.suggestions.Suggestion
 import com.jk.gogit.db.suggestions.SuggestionDB
@@ -46,15 +45,15 @@ class SearchSuggestionsProvider : ContentProvider() {
         return null
     }
 
-    override fun insert(uri: Uri, values: ContentValues): Uri? {
+    override fun insert(uri: Uri, values: ContentValues?): Uri? {
         val code = matcher.match(uri)
         val result: Long
         when (code) {
             CODE_SG -> {
                 result = runBlocking {
                     withContext(Dispatchers.Default) {
-                        val v = values.keySet().iterator().next()
-                        val suggestion = Suggestion(0, values.get(v) as String)
+                        val v = values?.keySet()?.iterator()?.next()
+                        val suggestion = Suggestion(0, values?.get(v) as String)
                         suggestionDao.insert(suggestion)
                     }
                 }
@@ -68,7 +67,7 @@ class SearchSuggestionsProvider : ContentProvider() {
     }
 
     override fun onCreate(): Boolean {
-        MyApplication.appComponent.inject(this)
+        // MyApplication.appComponent.inject(this)
         return true
     }
 

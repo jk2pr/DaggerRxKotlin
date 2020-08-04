@@ -14,15 +14,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProviders
-import com.crashlytics.android.answers.Answers
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.jk.gogit.R
 import com.jk.gogit.SearchActivity
-import com.jk.gogit.application.MyApplication.Companion.appComponent
 import com.jk.gogit.db.AppDatabase
 import com.jk.gogit.exception.ApiRateLimitExceedException
 import com.jk.gogit.exception.FileNotFoundException
@@ -56,12 +54,15 @@ abstract class BaseActivity : AppCompatActivity() {
     protected lateinit var pref: SharedPreferences
     @Inject
     lateinit var appDatabase: AppDatabase
+
     @Inject
     lateinit var analytics: FirebaseAnalytics
+
     @Inject
-    lateinit var answers: Answers
+    lateinit var firebaseAnalytics
+            : FirebaseAnalytics
     private val snack by lazy { Snackbar.make(find(android.R.id.content), "There is no data that match!", Snackbar.LENGTH_LONG) }
-    val model: UserViewModel by lazy { ViewModelProviders.of(this).get(UserViewModel::class.java) }
+    val model: UserViewModel by lazy { ViewModelProvider(this).get(UserViewModel::class.java) }
     var subscriptions = CompositeDisposable()
 
     companion object {
@@ -79,6 +80,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
 
         if (mAuth.currentUser != null) {
+
             val menuItem = menu?.findItem(R.id.action_notification)
             val item = menuItem?.actionView?.find<ImageView>(R.id.img_notification)
             if (!isNotificationAvailable)
@@ -97,13 +99,12 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        appComponent.inject(this)
         setContentView(getLayoutResourceId())
         setUpToolbar()
         //   setUpSearchBar()
     }
 
-    protected fun getLoginData(): UserProfile? {
+    fun getLoginData(): UserProfile? {
         if (sUser == null)
             sUser = Gson().fromJson(pref.getString("UserData", null), UserProfile::class.java)
         return sUser

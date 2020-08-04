@@ -7,23 +7,13 @@
     android:background="@color/githubLightBackGroundColor"
     tools:context="com.jk.gogit.ui.view.SplashActivity">
 
-    <!--<ImageView
-        android:visibility="gone"
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintBottom_toTopOf="@+id/app_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />-->
 
     <TextView
         android:id="@+id/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawablePadding="@dimen/dp20"
         android:drawableTop="@mipmap/ic_launcher_round"
+        android:drawablePadding="@dimen/dp20"
         android:fontFamily="@font/bebasnue_bold"
         android:gravity="center"
         android:text="@string/app_name"

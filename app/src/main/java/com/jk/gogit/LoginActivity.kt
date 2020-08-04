@@ -14,14 +14,10 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
-import com.crashlytics.android.answers.LoginEvent
 import com.google.firebase.auth.GithubAuthProvider
-import com.jk.gogit.model.Login.AuthRequestModel
 import com.jk.gogit.ui.view.BaseActivity
 import com.jk.gogit.utils.NavUtils
 import com.jk.gogit.utils.NavUtils.redirectToHome
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.Credentials
 import org.jetbrains.anko.AnkoLogger
@@ -59,33 +55,7 @@ class LoginActivity : BaseActivity(), AnkoLogger {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun showDialog() {
-        NavUtils.redirectToPP(this)
-
-        /*   alert {
-              R.layout.activity_pp
-             customView {
-                      webView {
-                          padding = dip(16)
-                          this.settings.apply {
-                              javaScriptEnabled = true
-                              layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
-                              setAppCachePath(cacheDir.path)
-                              setAppCacheEnabled(true)
-                              cacheMode = WebSettings.LOAD_NO_CACHE
-                              loadWithOverviewMode = true
-                              useWideViewPort = false
-                              builtInZoomControls = false
-                              displayZoomControls = false
-                          }
-                          loadUrl("https://jk2pr.github.io/")
-                      }
-                  }
-                  okButton {
-                      title = "Ok"
-                  }
-
-         }.show()
-*/
+        NavUtils.redirectToPrivacyPolicy(this)
     }
 
     private fun handlePrivacyPolicy() {
@@ -114,7 +84,7 @@ class LoginActivity : BaseActivity(), AnkoLogger {
         if (validate(userName, password)) {
             showLoader(true)
             val token = Credentials.basic(userName, password)
-            doLogin(token)
+            //doLogin(token)
         }
     }
 
@@ -150,7 +120,7 @@ class LoginActivity : BaseActivity(), AnkoLogger {
 
     }
 
-    private fun doLogin(token: String) {
+   /* private fun doLogin(token: String) {
         pref.edit().putString("initToken", token).apply()
         subscriptions.add(loginApi.authorizations(AuthRequestModel().generate())
                 .subscribeOn(Schedulers.io())
@@ -162,7 +132,7 @@ class LoginActivity : BaseActivity(), AnkoLogger {
                     onError(e)
                     showLoader(false)
                 }))
-    }
+    }*/
 
     private fun signInWithToken(token: String) {
         val credential = GithubAuthProvider.getCredential(token)
@@ -176,9 +146,7 @@ class LoginActivity : BaseActivity(), AnkoLogger {
                         pref.edit().putString("AccessToken", token).apply()
                         val user = task.result?.user
                         redirectToHome(this, user)
-                        answers.logLogin(LoginEvent()
-                                .putMethod("BasicAuthentication")
-                                .putSuccess(true))
+
                     }
                 }
     }

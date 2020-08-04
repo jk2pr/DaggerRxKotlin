@@ -10,7 +10,7 @@ import com.jk.gogit.utils.DateUtil
 import kotlinx.android.synthetic.main.item_repo.view.*
 
 /**
- * Created by M2353204 on 02/08/2017.
+ *  on 02/08/2017.
  */
 class RepoAdapter(val viewActions: OnViewSelectedListener?) : androidx.recyclerview.widget.RecyclerView.Adapter<RepoAdapter.ViewHolder>() {
     private var data = ArrayList<Repo>()

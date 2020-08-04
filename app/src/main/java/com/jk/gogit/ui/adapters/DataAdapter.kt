@@ -8,7 +8,7 @@ import com.jk.gogit.model.search.User
 import kotlinx.android.synthetic.main.item_search.view.*
 
 /**
- * Created by M2353204 on 02/08/2017.
+ *  on 02/08/2017.
  */
 class DataAdapter(val viewActions: onViewSelectedListener?) : androidx.recyclerview.widget.RecyclerView.Adapter<DataAdapter.ViewHolder>() {
     private var datas = ArrayList<User>()

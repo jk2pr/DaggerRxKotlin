@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.layout_item_head_comments.view.*
 import org.jetbrains.anko.displayMetrics
 
 /**
- * Created by M2353204 on 02/08/2017.
+ *  on 02/08/2017.
  */
 class IssueTimeLineAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
     private var datas = ArrayList<TimeLine>()
@@ -171,7 +171,7 @@ class IssueTimeLineAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<a
                 itemView.img_actor?.loading(item.actor?.avatarUrl!!)
             setEventIcon(item)
             setDesc(item)
-            setMargin(item, datas.indexOf(item));
+            setMargin(item, datas.indexOf(item))
         }
 
         fun setMargin(data: TimeLine, position: Int) {

@@ -8,6 +8,9 @@ import com.jk.gogit.db.suggestions.SuggestionDB
 import com.jk.gogit.db.suggestions.SuggestionDB.Companion.MIGRATION1_2
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
 /**
@@ -15,19 +18,22 @@ import javax.inject.Singleton
  */
 
 @Module
-class DBModule(val app: Context) {
+@InstallIn(ApplicationComponent::class)
+class DBModule() {
     @Provides
     @Singleton
-    fun getAppDB(): AppDatabase {
-        return Room.databaseBuilder(app,
+    fun getAppDB(@ApplicationContext
+                 application: Context): AppDatabase {
+        return Room.databaseBuilder(application,
                 AppDatabase::class.java, "database-name").build()
 
     }
 
     @Provides
     @Singleton
-    fun getSuggestionDB(): SuggestionDB {
-        return Room.databaseBuilder(app,
+    fun getSuggestionDB(@ApplicationContext
+                        application: Context): SuggestionDB {
+        return Room.databaseBuilder(application,
                 SuggestionDB::class.java, DBCONSTANTS.DB_NAME).addMigrations(MIGRATION1_2).build()
 
     }

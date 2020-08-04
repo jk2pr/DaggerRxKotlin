@@ -32,11 +32,11 @@ object NavUtils {
     }
 
 
-    fun redirectToNoLoginMainActivity(context: Activity) {
+   /* fun redirectToNoLoginMainActivity(context: Activity) {
         context.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         context.startActivity(context.intentFor<NoLoginMainActivity>())
         context.finish()
-    }
+    }*/
 
     fun redirectToProfile(context: Activity, id: String?) {
         // overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
@@ -78,7 +78,7 @@ object NavUtils {
         context.startActivity(context.intentFor<NotificationActivity>())
     }
 
-    fun redirectToPP(context: Activity) {
+    fun redirectToPrivacyPolicy(context: Activity) {
         context.startActivity(context.intentFor<PpActivity>())
     }
 

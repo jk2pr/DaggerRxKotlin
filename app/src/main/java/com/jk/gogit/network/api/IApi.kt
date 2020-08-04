@@ -5,6 +5,7 @@ import com.jk.gogit.model.*
 import com.jk.gogit.model.commits.CommitData
 import com.jk.gogit.model.search.SearchRepoResult
 import com.jk.gogit.model.search.SearchUserResult
+import com.jk.gogit.ui.login.data.response.AccessToken
 import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.Response
@@ -35,11 +36,11 @@ interface IApi {
 
 
     @GET("users/{user}/received_events")
-    fun getFeed(@Path("user") user: String, @Query("page") page: Int, @Query("per_page") perPage: Int): Observable<Response<List<Feed>>>
+    suspend fun getFeed(@Path("user") user: String, @Query("page") page: Int, @Query("per_page") perPage: Int): List<Feed>
 
 
     @GET("/user")
-    fun getMyProfile(): Observable<UserProfile>
+   suspend fun getMyProfile(): UserProfile
 
     @GET("/notifications")
     fun getNotifications(@Query("all") isAll: Boolean,

@@ -25,11 +25,11 @@ import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.crashlytics.android.answers.CustomEvent
 import com.google.android.material.appbar.AppBarLayout
 import com.google.gson.Gson
 import com.jk.gogit.EditProfileActivity
@@ -53,6 +53,7 @@ import kotlinx.android.synthetic.main.activity_user_profile.*
 import kotlinx.android.synthetic.main.include_profile_header.*
 import org.jetbrains.anko.*
 import java.util.*
+import javax.inject.Inject
 
 class UserProfileActivity : BaseActivity(), AnkoLogger, AppBarLayout.OnOffsetChangedListener, Observer<UserProfile> {
     override fun onChanged(t: UserProfile?) {
@@ -67,6 +68,8 @@ class UserProfileActivity : BaseActivity(), AnkoLogger, AppBarLayout.OnOffsetCha
     var selectedUser: String = "N/A"
     var navHistory = Stack<String>()
 
+    @Inject
+    lateinit var requestManager: RequestManager
     override fun getLayoutResourceId(): Int {
         return R.layout.activity_user_profile
     }
@@ -115,9 +118,7 @@ class UserProfileActivity : BaseActivity(), AnkoLogger, AppBarLayout.OnOffsetCha
         if (isProfileSameAsLogin(selectedUser)) {
             /*it means it is login user*/
             selectedUser = "N/A"
-            answers.logCustom(CustomEvent("Own-UserProfile"))
         } else
-            answers.logCustom(CustomEvent("Others-UserProfile"))
 
         updateUser()
         navHistory.push(selectedUser)
@@ -143,8 +144,8 @@ class UserProfileActivity : BaseActivity(), AnkoLogger, AppBarLayout.OnOffsetCha
         if (dialog.isShowing)
             return
         dialog.show()
-        val privateRadio = dialog.find<RadioButton>(R.id.radio_private)
-        val publicRadio = dialog.find<RadioButton>(R.id.radio_public)
+        val privateRadio = dialog.find<RadioButton>(radio_private)
+        val publicRadio = dialog.find<RadioButton>(radio_public)
         if (isProfileSameAsLogin(selectedUser)) {
             privateRadio.visibility = View.VISIBLE
             publicRadio.visibility = View.VISIBLE
@@ -229,7 +230,7 @@ class UserProfileActivity : BaseActivity(), AnkoLogger, AppBarLayout.OnOffsetCha
         val name = userProfile.name
         profile?.let {
             it.setTag(R.id.profile, name)
-            it.loadingA(userProfile.avatarUrl, object : RequestListener<Drawable> {
+            it.loadingA(requestManager, userProfile.avatarUrl, object : RequestListener<Drawable> {
                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                     return false
                 }
@@ -359,7 +360,7 @@ class UserProfileActivity : BaseActivity(), AnkoLogger, AppBarLayout.OnOffsetCha
     private fun updateUser() {
         invalidateOptionsMenu()
         resetDialog()
-        val u = model.getUserProfile(selectedUser).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()) .subscribe({
+     /*   val u = model.getUserProfile(selectedUser).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()) .subscribe({
             model.liveData.value = it
             // updateProfile(it)
 
@@ -370,7 +371,7 @@ class UserProfileActivity : BaseActivity(), AnkoLogger, AppBarLayout.OnOffsetCha
         }, {
 
         })
-        subscriptions.add(u)
+        subscriptions.add(u)*/
 
         if (getLoginData()?.login.isNullOrEmpty()) {
             //Not a logged in user

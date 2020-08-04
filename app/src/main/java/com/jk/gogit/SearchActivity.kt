@@ -7,9 +7,7 @@ import android.util.SparseArray
 import android.view.Menu
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.cursoradapter.widget.CursorAdapter
 import androidx.fragment.app.Fragment
-import com.crashlytics.android.answers.SearchEvent
 import com.jk.gogit.db.suggestions.DBCONSTANTS
 import com.jk.gogit.ui.adapters.SearchSuggestionAdapter
 import com.jk.gogit.ui.view.BaseActivity
@@ -50,7 +48,6 @@ class SearchActivity : BaseActivity() {
         val pageAdapter = (container?.adapter as? MyPageAdapter)
         if (pageAdapter != null)
             if (pageAdapter.registeredFragments.size() != 0) {
-                answers.logSearch(SearchEvent().putQuery(p0))
                 pageAdapter.apply {
                     val searchU = pageAdapter.registeredFragments[0] as? SearchUserFragment
                     searchU?.let {
