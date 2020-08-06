@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.RequestManager
 import com.google.firebase.auth.FirebaseAuth
 import com.jk.gogit.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var mAuth: FirebaseAuth
 
+    @Inject
+    lateinit var requestManager: RequestManager
 
     companion object {
         // The minimum amount of items to have below your current scroll position
@@ -42,10 +46,7 @@ class MainActivity : AppCompatActivity() {
         if (toolbar != null) {
             val toolbar = toolbar as androidx.appcompat.widget.Toolbar
             toolbar.elevation = 0.0f
-            //findOptional<AppBarLayout>(R.id.app_bar_layout)?.setPadding(0, getStatusBarHeight(), 0, 0)
-            //toolbar.visibility = View.VISIBLE
             toolbar.overflowIcon = ContextCompat.getDrawable(this, R.drawable.ic_overflow_white)
-            //toolbar_title.text = getText(R.string.app_name)
             setSupportActionBar(toolbar)
         }
     }
@@ -93,18 +94,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         my_nav_host_fragment.post {
-
             val navController = Navigation.findNavController(this, R.id.my_nav_host_fragment)
             val navGraph = navController.navInflater.inflate(R.navigation.nav)
-
             val startDestination = if (mAuth.currentUser == null) R.id.fragment_login else R.id.fragment_feed
-
             navGraph.startDestination = startDestination
             navController.graph = navGraph
+
+            val appBarConfiguration = AppBarConfiguration(navController.graph)
+
+            collapsing_toolbar.setupWithNavController(toolbar, navController, appBarConfiguration)
         }
+
         setUpToolbar()
         enableHomeInToolBar(resources.getString(R.string.app_name), false)
     }
+
+    override fun onSupportNavigateUp() = findNavController(R.id.my_nav_host_fragment).navigateUp()
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         /*   subscriptions.add(model.getNotifications(false, 0, sMaxRecord)

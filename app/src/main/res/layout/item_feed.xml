@@ -1,57 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardBackgroundColor="@android:color/white"
-    android:layout_margin="1dp"
-    app:cardElevation="1dp"
-    card_view:cardCornerRadius="1dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="feed"
+            type="com.jk.gogit.model.Feed" />
+
+        <variable
+            name="requestManager"
+            type="com.bumptech.glide.RequestManager" />
+
+        <variable
+            name="itemClickListener"
+            type="com.jk.gogit.ui.adapters.FeedAdapter.OnViewSelectedListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{(v)  -> itemClickListener.onFeedItemClick(v,feed.repo.name)}"
+        app:cardElevation="1dp"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardCornerRadius="1dp">
 
-        <ImageView
-            android:id="@+id/img_actor"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-             />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/txt_activity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:gravity="top"
-            android:textColor="@color/colorTextDark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/img_actor"
-            app:layout_constraintTop_toTopOf="@+id/img_actor"
-            tools:text="Activity" />
+            <ImageView
+                android:id="@+id/img_actor"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:onClick="@{(v)  -> itemClickListener.onActorImageClick(v,feed.actor.login)}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:profileImage="@{feed.actor.avatar_url}"
+                app:requestManager="@{requestManager}" />
 
-        <TextView
-            android:id="@+id/txt_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:fontFamily="@font/bebasneue_book"
-            android:textAlignment="viewEnd"
-            android:textColor="@color/colorTextDark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_activity"
-            tools:text="Time" />
+            <TextView
+                android:id="@+id/txt_activity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:gravity="top"
+                android:textColor="@color/colorTextDark"
+                app:feed="@{feed}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/img_actor"
+                app:layout_constraintTop_toTopOf="@+id/img_actor"
+                tools:text="Activity" />
+
+            <TextView
+                android:id="@+id/txt_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/bebasneue_book"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/colorTextDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_activity"
+                tools:text="Time" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

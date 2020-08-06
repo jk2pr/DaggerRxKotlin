@@ -5,7 +5,6 @@ import com.jk.gogit.model.*
 import com.jk.gogit.model.commits.CommitData
 import com.jk.gogit.model.search.SearchRepoResult
 import com.jk.gogit.model.search.SearchUserResult
-import com.jk.gogit.ui.login.data.response.AccessToken
 import io.reactivex.Completable
 import io.reactivex.Observable
 import retrofit2.Response
@@ -54,7 +53,7 @@ interface IApi {
 
 
     @GET("/users/{user}")
-    fun getUserProfile(@Path("user") user: String): Observable<UserProfile>
+    suspend fun getUserProfile(@Path("user") user: String): UserProfile
 
     @GET("/orgs/{org}")
     fun getOrgProfile(@Path("org") org: String): Observable<OrgProfile>

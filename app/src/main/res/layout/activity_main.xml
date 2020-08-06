@@ -34,12 +34,12 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/my_nav_host_fragment"
-            android:name="com.jk.gogit.ui.main.MainNavHostFragment"
+            android:name="com.jk.gogit.ui.MainNavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/nav" />
+            android:layout_gravity="center"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
